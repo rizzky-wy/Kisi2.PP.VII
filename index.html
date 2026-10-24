@@ -1,0 +1,1273 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Garuda - Kisi-Kisi 35 Soal SMPN 4 Kalibening</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .font-game {
+            font-family: 'Fredoka', cursive;
+        }
+        .island-card {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .island-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.15), 0 8px 10px -6px rgba(225, 29, 72, 0.1);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="bg-gradient-to-r from-red-700 via-red-600 to-amber-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-amber-400 rounded-2xl flex items-center justify-center text-red-800 text-2xl font-black shadow-inner border-2 border-amber-200">
+                    <i class="fa-solid me-0">🇮🇩</i>
+                </div>
+                <div>
+                    <h1 class="font-game text-xl md:text-2xl font-bold tracking-wide text-amber-300 drop-shadow">PETUALANGAN GARUDA</h1>
+                    <p class="text-xs text-red-100 font-semibold">SMPN 4 Kalibening • Kelas VII • TA 2026/2027</p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="flex items-center gap-4 bg-red-800/60 px-4 py-2 rounded-xl backdrop-blur border border-red-500/40 text-sm">
+                <div class="flex items-center gap-2" title="Bintang Terkumpul">
+                    <i class="fa-solid fa-star text-amber-400 text-lg animate-pulse"></i>
+                    <span id="star-count" class="font-bold text-amber-200 text-base">0</span>
+                </div>
+                <div class="h-4 w-[1px] bg-red-400/50"></div>
+                <div class="flex items-center gap-2" title="XP Pembelajar">
+                    <i class="fa-solid fa-bolt text-amber-300 text-lg"></i>
+                    <span id="xp-count" class="font-bold text-amber-100 text-base">0 XP</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- NAV TAB BUTTONS -->
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button onclick="switchTab('adventure')" id="tab-adventure" class="nav-tab px-6 py-3 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-md bg-red-600 text-white hover:bg-red-700">
+                <i class="fa-solid fa-map"></i> 1. Mode Petualangan 5 Sila
+            </button>
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="nav-tab px-6 py-3 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-md bg-white text-slate-700 hover:bg-slate-100">
+                <i class="fa-solid fa-stopwatch"></i> 2. Kuis Cepat 35 Soal
+            </button>
+            <button onclick="switchTab('numeracy')" id="tab-numeracy" class="nav-tab px-6 py-3 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-md bg-white text-slate-700 hover:bg-slate-100">
+                <i class="fa-solid fa-calculator"></i> 3. Mode Latihan Numerasi
+            </button>
+        </div>
+
+        <!-- ==================== TAB 1: MODE PETUALANGAN ==================== -->
+        <section id="sec-adventure" class="tab-content block">
+            <!-- Header Banner -->
+            <div class="bg-gradient-to-r from-amber-500 to-red-600 rounded-3xl p-6 text-white mb-8 shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-amber-300 text-red-900 text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider mb-2 inline-block">Petualangan Belajar</span>
+                    <h2 class="font-game text-2xl md:text-3xl font-bold mb-2">Jelajahi 5 Pulau Sila Pancasila!</h2>
+                    <p class="text-amber-100 text-sm leading-relaxed">Selesaikan 30 pos tantangan di 5 pulau untuk menguasai kisi-kisi Asesmen Sumatif Gasal. Dapatkan penjelasan langsung dari para Tokoh Pendiri Bangsa!</p>
+                </div>
+                <div class="absolute right-4 -bottom-6 opacity-20 text-9xl font-black select-none text-white hidden md:block">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+            </div>
+
+            <!-- Island Map Selector -->
+            <div id="island-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
+                <!-- Dynamic Islands render here -->
+            </div>
+
+            <!-- Post List for Selected Island -->
+            <div id="post-container" class="hidden">
+                <div class="flex items-center justify-between mb-4 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                    <div>
+                        <h3 id="selected-island-title" class="font-game text-xl font-bold text-slate-800">Pulau Sila</h3>
+                        <p class="text-xs text-slate-500">Pilih pos untuk memulai latihan soal</p>
+                    </div>
+                    <button onclick="hidePosts()" class="text-xs text-slate-500 hover:text-red-600 px-3 py-1 bg-slate-100 rounded-lg">
+                        <i class="fa-solid fa-xmark"></i> Tutup
+                    </button>
+                </div>
+                <div id="post-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <!-- Dynamic Posts Render Here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: MODE KUIS CEPAT ==================== -->
+        <section id="sec-quiz" class="tab-content hidden">
+            <!-- Intro / Setup Screen -->
+            <div id="quiz-intro" class="bg-white rounded-3xl p-8 max-w-2xl mx-auto shadow-xl border border-slate-100 text-center">
+                <div class="w-20 h-20 bg-red-100 text-red-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-4">
+                    <i class="fa-solid fa-file-pen"></i>
+                </div>
+                <h2 class="font-game text-2xl md:text-3xl font-bold text-slate-800 mb-2">Simulasi Asesmen Sumatif Gasal</h2>
+                <p class="text-slate-600 text-sm mb-6">Uji kesiapanmu menghadapi tes Selasa, 27 Oktober! Kuis berisi 35 soal pilihan ganda sesuai kisi-kisi resmi SMPN 4 Kalibening.</p>
+
+                <div class="grid grid-cols-3 gap-3 text-left mb-6 text-xs bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <div class="p-2">
+                        <span class="block text-slate-400">Total Soal</span>
+                        <span class="font-bold text-slate-700 text-base">35 Soal</span>
+                    </div>
+                    <div class="p-2 border-x border-slate-200">
+                        <span class="block text-slate-400">Waktu</span>
+                        <span class="font-bold text-slate-700 text-base">15 Menit</span>
+                    </div>
+                    <div class="p-2">
+                        <span class="block text-slate-400">Target KKTP</span>
+                        <span class="font-bold text-emerald-600 text-base">≥ 75 Poin</span>
+                    </div>
+                </div>
+
+                <button onclick="startFullQuiz()" class="w-full bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-700 hover:to-amber-700 text-white font-bold py-4 rounded-2xl text-lg shadow-lg hover:shadow-red-500/25 transition-all">
+                    <i class="fa-solid fa-play me-2"></i> Mulai Kuis Cepat Sekarang
+                </button>
+            </div>
+
+            <!-- Active Quiz Screen -->
+            <div id="quiz-active" class="hidden">
+                <!-- Top Status Bar -->
+                <div class="glass-panel rounded-2xl p-4 mb-6 flex flex-wrap justify-between items-center gap-4 sticky top-16 z-40 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-sm text-slate-500">Soal <span id="quiz-current-num" class="text-red-600 font-extrabold text-lg">1</span> / 35</span>
+                        <span id="quiz-badge-level" class="text-xs px-2.5 py-1 rounded-full font-bold bg-amber-100 text-amber-800">L1</span>
+                    </div>
+
+                    <!-- Timer -->
+                    <div class="flex items-center gap-2 bg-red-50 border border-red-200 px-4 py-1.5 rounded-xl text-red-700 font-bold font-mono">
+                        <i class="fa-regular fa-clock animate-pulse"></i>
+                        <span id="quiz-timer-text">15:00</span>
+                    </div>
+
+                    <button onclick="finishQuizConfirmation()" class="text-xs bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-bold transition">
+                        Selesai & Kumpulkan
+                    </button>
+                </div>
+
+                <!-- Number Grid Navigator -->
+                <div id="quiz-nav-grid" class="flex flex-wrap gap-2 mb-6 bg-white p-4 rounded-2xl border border-slate-200 justify-center">
+                    <!-- Dynamic 1-35 buttons -->
+                </div>
+
+                <!-- Question Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 mb-6">
+                    <div class="mb-2 text-xs font-bold text-red-600 tracking-wider uppercase" id="quiz-indicator-label">Indikator Kisi-Kisi</div>
+                    <h3 class="text-lg md:text-xl font-bold text-slate-800 mb-6 leading-relaxed" id="quiz-question-text">Loading question...</h3>
+
+                    <div id="quiz-options-container" class="space-y-3">
+                        <!-- Dynamic options A, B, C, D -->
+                    </div>
+                </div>
+
+                <!-- Action Nav -->
+                <div class="flex justify-between items-center">
+                    <button id="btn-prev-quiz" onclick="navigateQuiz(-1)" class="px-5 py-2.5 rounded-xl bg-slate-200 text-slate-700 font-bold hover:bg-slate-300 text-sm">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Sebelumnya
+                    </button>
+                    <button id="btn-next-quiz" onclick="navigateQuiz(1)" class="px-6 py-2.5 rounded-xl bg-red-600 text-white font-bold hover:bg-red-700 text-sm shadow">
+                        Berikutnya <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Screen -->
+            <div id="quiz-result" class="hidden">
+                <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 max-w-4xl mx-auto">
+                    <div class="text-center mb-8">
+                        <div id="result-badge-icon" class="w-24 h-24 rounded-full flex items-center justify-center text-5xl mx-auto mb-4 shadow-inner">🏆</div>
+                        <h2 class="font-game text-3xl font-bold text-slate-800 mb-1" id="result-title">Hasil Asesmen Sumatif</h2>
+                        <p class="text-sm text-slate-500" id="result-subtitle">Evaluasi Ketuntasan Kriteria Tujuan Pembelajaran (KKTP)</p>
+                    </div>
+
+                    <!-- Score Card Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl text-center">
+                            <span class="text-xs text-slate-500 uppercase font-bold block mb-1">Nilai Akhir</span>
+                            <span class="font-game text-4xl font-extrabold text-red-600" id="result-score">0</span>
+                            <span class="text-xs text-slate-400 block mt-1">Skala 0 - 100</span>
+                        </div>
+
+                        <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl text-center">
+                            <span class="text-xs text-slate-500 uppercase font-bold block mb-1">Status KKTP</span>
+                            <span class="font-bold text-lg block" id="result-kktp">Memuat...</span>
+                            <span class="text-xs text-slate-400 block mt-1" id="result-kktp-desc">Kriteria Minimum 75</span>
+                        </div>
+
+                        <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl text-center">
+                            <span class="text-xs text-slate-500 uppercase font-bold block mb-1">Jawaban Benar</span>
+                            <span class="font-game text-4xl font-extrabold text-emerald-600" id="result-correct-count">0/35</span>
+                            <span class="text-xs text-slate-400 block mt-1" id="result-time-used">Waktu: -</span>
+                        </div>
+                    </div>
+
+                    <!-- Radar / Bar Chart Analysis per Sila -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-8">
+                        <h4 class="font-bold text-slate-800 mb-4 text-center"><i class="fa-solid fa-chart-pie text-red-600 me-2"></i>Analisis Penguasaan Per Sila Pancasila</h4>
+                        <div class="max-w-md mx-auto h-64">
+                            <canvas id="silaRadarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 justify-center">
+                        <button onclick="startFullQuiz()" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-lg transition">
+                            <i class="fa-solid fa-rotate-right me-2"></i> Coba Lagi Simulasi
+                        </button>
+                        <button onclick="switchTab('adventure')" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-lg transition">
+                            <i class="fa-solid fa-map me-2"></i> Pendalaman Di Mode Petualangan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: MODE NUMERASI ==================== -->
+        <section id="sec-numeracy" class="tab-content hidden">
+            <div class="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-3xl p-6 text-white mb-8 shadow-xl">
+                <div class="max-w-2xl">
+                    <span class="bg-blue-300 text-blue-950 text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider mb-2 inline-block">Numerasi Pancasila</span>
+                    <h2 class="font-game text-2xl md:text-3xl font-bold mb-2">Latihan Khusus Soal Hitungan</h2>
+                    <p class="text-blue-100 text-sm">Banyak siswa masih kurang tuntas di indikator numerasi. Gunakan alat kalkulator bantuan visual di bawah ini untuk belajar!</p>
+                </div>
+            </div>
+
+            <!-- Numeracy Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" id="numeracy-cards">
+                <!-- Dynamic Numeracy Questions -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 text-center text-xs py-6 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="font-semibold text-slate-300 mb-1">Media Pembelajaran Pendidikan Pancasila SMPN 4 Kalibening</p>
+            <p>Persiapan Asesmen Sumatif Gasal Kelas VII • Selasa, 27 Oktober 2026</p>
+        </div>
+    </footer>
+
+    <!-- MODAL SOAL (MODE PETUALANGAN) -->
+    <div id="modal-question" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeQuestionModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-9 h-9 bg-slate-100 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Badges -->
+            <div class="flex flex-wrap gap-2 mb-4">
+                <span id="modal-badge-pos" class="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full">Pos 1</span>
+                <span id="modal-badge-level" class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">Level L1</span>
+                <span id="modal-badge-no" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">Soal No 1</span>
+            </div>
+
+            <div id="modal-indicator-title" class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Indikator</div>
+            <h3 id="modal-question-text" class="text-base md:text-lg font-bold text-slate-800 mb-6 leading-relaxed">Pertanyaan...</h3>
+
+            <!-- Options -->
+            <div id="modal-options-container" class="space-y-3 mb-6">
+                <!-- Options button -->
+            </div>
+
+            <!-- Hint Box (Hidden by default) -->
+            <div id="modal-hint-box" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 text-xs text-amber-900">
+                <div class="font-bold mb-1 flex items-center gap-2 text-amber-800">
+                    <i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i> Petunjuk / Hint:
+                </div>
+                <div id="modal-hint-text">...</div>
+            </div>
+
+            <!-- Explanation / NPC Box (Hidden by default) -->
+            <div id="modal-npc-box" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-4">
+                <div class="flex items-start gap-3">
+                    <div id="npc-avatar" class="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0 shadow">
+                        👴🏻
+                    </div>
+                    <div>
+                        <span id="npc-name" class="font-bold text-emerald-900 text-sm block">Mr. Muhammad Yamin</span>
+                        <p id="npc-explanation" class="text-xs text-emerald-800 mt-1 leading-relaxed">Penjelasan...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modal-actions" class="flex justify-end hidden">
+                <button onclick="closeQuestionModal()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-sm shadow">
+                    Lanjut Petualangan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT APPLICATION DATA & LOGIC -->
+    <script>
+        // ==========================================
+        // DATA KISI-KISI & SOAL (35 SOAL LENGKAP)
+        // ==========================================
+        const rawSoalData = [
+            {
+                no: 1, sila: 1, pos: 1, level: "L1",
+                materi: "Tokoh Perumus - M. Yamin",
+                indikator: "Menyebutkan usulan asas M. Yamin",
+                soal: "Pada sidang BPUPKI tanggal 29 Mei 1945, Mr. Muhammad Yamin menyampaikan 5 asas dasar negara Indonesia merdeka. Manakah yang TERMASUK dalam usulan lisan M. Yamin?",
+                options: ["Peri Kebangsaan, Peri Kemanusiaan, Peri Ketuhanan, Peri Kerakyatan, Kesejahteraan Rakyat", "Persatuan, Kekeluargaan, Keseimbangan Lahir Batin, Musyawarah, Keadilan Rakyat", "Kebangsaan Indonesia, Internasionalisme, Mufakat, Kesejahteraan Sosial, Ketuhanan", "Ketuhanan, Kemanusiaan, Persatuan, Kerakyatan, Keadilan"],
+                ans: 0,
+                hint: "Usulan M. Yamin diawali dengan kata 'Peri...' untuk empat poin pertamanya.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Benar sekali! Pada 29 Mei 1945, saya mengusulkan 5 asas lisan: Peri Kebangsaan, Peri Kemanusiaan, Peri Ketuhanan, Peri Kerakyatan, dan Kesejahteraan Rakyat."
+            },
+            {
+                no: 2, sila: 1, pos: 2, level: "L2",
+                materi: "Tokoh Perumus - Soepomo",
+                indikator: "Menentukan inti pemikiran integralistik",
+                soal: "Prof. Dr. Mr. Soepomo mengusulkan teori negara Integralistik (paham negara kesatuan). Apakah inti dari pemikiran integralistik tersebut?",
+                options: ["Negara menjamin kebebasan individu mutlak tanpa batas", "Negara bersatu dengan seluruh rakyatnya dan mengutamakan kepentingan bersama di atas golongan", "Negara dikuasai oleh kelompok mayoritas pendiri bangsa", "Negara memisahkan urusan agama dan pemerintahan secara penuh"],
+                ans: 1,
+                hint: "Integralistik berarti menyatu (integral) antara negara dan seluruh rakyat tanpa membedakan golongan.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Tepat! Paham integralistik yang saya sampaikan pada 31 Mei 1945 menekankan bahwa negara tidak membela satu golongan, melainkan menyatu dengan seluruh rakyat."
+            },
+            {
+                no: 3, sila: 1, pos: 3, level: "L1",
+                materi: "Hari Lahir Pancasila 1 Juni 1945",
+                indikator: "Mengidentifikasi peringatan 1 Juni",
+                soal: "Setiap tanggal 1 Juni, bangsa Indonesia memperingati Hari Lahir Pancasila. Peristiwa sejarah utama yang menjadi dasar penetapan tanggal tersebut adalah...",
+                options: ["Pengesahan UUD 1945 oleh PPKI", "Pidato Ir. Soekarno yang pertama kali mengusulkan nama 'Pancasila'", "Penandatanganan Piagam Jakarta oleh Panitia Sembilan", "Pembentukan organisasi BPUPKI oleh Jepang"],
+                ans: 1,
+                hint: "Pada tanggal 1 Juni 1945, Ir. Soekarno berpidato menyebutkan istilah Pancasila.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Merdeka! Pada tanggal 1 Juni 1945 di sidang BPUPKI, saya memberikan nama 'Pancasila' atas saran ahli bahasa untuk 5 dasar negara yang saya usulkan."
+            },
+            {
+                no: 4, sila: 1, pos: 4, level: "L1",
+                materi: "Panitia Delapan & Sembilan",
+                indikator: "Menjelaskan tugas Panitia Sembilan",
+                soal: "Panitia Sembilan dibentuk di luar sidang resmi BPUPKI. Tugas utama dari Panitia Sembilan adalah...",
+                options: ["Menyiapkan teks Proklamasi Kemerdekaan", "Menyusun dan merumuskan rancangan Pembukaan Hukum Dasar (Piagam Jakarta)", "Menentukan Presiden dan Wakil Presiden pertama", "Memilih anggota BPUPKI tambahan dari Jepang"],
+                ans: 1,
+                hint: "Panitia Sembilan berhasil melahirkan naskah Piagam Jakarta (Jakarta Charter).",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Bagus! Panitia Sembilan menyelaraskan usulan-usulan dasar negara dan menghasilkan Mukaddimah / Piagam Jakarta pada 22 Juni 1945."
+            },
+            {
+                no: 5, sila: 1, pos: 5, level: "L3",
+                materi: "Piagam Jakarta",
+                indikator: "Menganalisis nilai toleransi perubahan sila 1",
+                soal: "Sila pertama dalam Piagam Jakarta semula berbunyi 'Ketuhanan dengan kewajiban menjalankan syariat Islam bagi pemeluk-pemeluknya'. Namun diubah menjadi 'Ketuhanan Yang Maha Esa'. Nilai utama dari perubahan ini adalah...",
+                options: ["Mengutamakan kepentingan golongan tertentu", "Semangat toleransi, persatuan, dan menjaga keutuhan NKRI dari keberagaman", "Tunduk pada keinginan pemerintah Jepang", "Mempercepat pembentukan partai politik"],
+                ans: 1,
+                hint: "Pendiri bangsa dari kalangan Islam berjiwa besar demi persatuan kawasan Indonesia Timur.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Luar biasa! Tokoh Islam seperti Ki Bagus Hadikusumo dan Kasman Singodimedjo legawa demi keutuhan bangsa Indonesia yang majemuk."
+            },
+            {
+                no: 6, sila: 1, pos: 6, level: "L2",
+                materi: "Durasi Sidang BPUPKI",
+                indikator: "Menghitung total durasi sidang (Numerasi)",
+                soal: "Sidang I BPUPKI berlangsung selama 4 hari (29 Mei - 1 Juni 1945) dan Sidang II berlangsung selama 8 hari (10 - 17 Juli 1945). Berapakah total durasi hari pelaksanaan sidang resmi BPUPKI?",
+                options: ["10 Hari", "12 Hari", "14 Hari", "16 Hari"],
+                ans: 1,
+                hint: "Ingat hitungan sederhana: 4 hari sidang pertama + 8 hari sidang kedua = 12 hari.",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Tepat sekali! Total hari sidang resmi BPUPKI adalah 4 + 8 = 12 Hari kerja keras perumusan."
+            },
+            // SILA 2 (POS 7-12)
+            {
+                no: 7, sila: 2, pos: 7, level: "L2",
+                materi: "Gotong royong / Kerja Bakti",
+                indikator: "Mengaitkan kerja bakti dengan sila 3",
+                soal: "Warga SMPN 4 Kalibening bersama masyarakat desa mengadakan kerja bakti membersihkan saluran air menjelang musim hujan. Perilaku ini mencerminkan pengamalan Pancasila khususnya sila...",
+                options: ["Pertama", "Kedua", "Ketiga", "Kelima"],
+                ans: 2,
+                hint: "Kerja bakti membina semangat kebersamaan dan persatuan warga.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Tepat! Gotong royong dan kerja bakti adalah perekat Persatuan Indonesia (Sila ke-3)."
+            },
+            {
+                no: 8, sila: 2, pos: 8, level: "L2",
+                materi: "Musyawarah RT",
+                indikator: "Mengidentifikasi musyawarah sebagai sila 4",
+                soal: "Saat terjadi perbedaan pendapat mengenai jadwal ronda malam, Pak RT mengundang warga untuk duduk bersama dan mengambil keputusan secara mufakat. Hal ini merupakan wujud penerapan Sila...",
+                options: ["Sila ke-2", "Sila ke-3", "Sila ke-4", "Sila ke-5"],
+                ans: 2,
+                hint: "Musyawarah untuk mufakat adalah ciri khas Sila ke-4.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Benar! Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan adalah ruh Sila ke-4."
+            },
+            {
+                no: 9, sila: 2, pos: 9, level: "L2",
+                materi: "Keadilan Sosial / Bansos",
+                indikator: "Mengaitkan Bansos dengan sila 5",
+                soal: "Pemerintah membagikan Bantuan Sosial (Bansos) secara merata dan tepat sasaran kepada warga kurang mampu di Kalibening. Tindakan ini selaras dengan nilai Pancasila Sila...",
+                options: ["Sila ke-2", "Sila ke-3", "Sila ke-4", "Sila ke-5"],
+                ans: 3,
+                hint: "Keadilan sosial dan kesejahteraan warga adalah cerminan Sila ke-5.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Hebat! Keadilan sosial bagi seluruh rakyat Indonesia tercermin dari pemerataan kesejahteraan Sila ke-5."
+            },
+            {
+                no: 10, sila: 2, pos: 10, level: "L3",
+                materi: "Analisis kasus penerapan",
+                indikator: "Membedakan penerapan & pelanggaran Pancasila",
+                soal: "Di bawah ini yang merupakan tindakan yang BERTENTANGAN dengan nilai Sila Kemanusiaan yang Adil dan Beradab adalah...",
+                options: ["Membantu teman yang jatuh di lapangan", "Melakukan perundungan (bullying) kepada adik kelas di media sosial", "Menghargai pendapat orang lain saat diskusi", "Menjunjung tinggi kesetaraan hak antar sesama"],
+                ans: 1,
+                hint: "Perundungan/bullying merendahkan harkat dan martabat manusia.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Tepat! Bullying melanggar nilai kemanusiaan Sila ke-2 karena merendahkan martabat sesama."
+            },
+            {
+                no: 11, sila: 2, pos: 11, level: "L1",
+                materi: "Ketua BPUPKI",
+                indikator: "Mengidentifikasi Ketua BPUPKI",
+                soal: "Badan Penyelidik Usaha-usaha Persiapan Kemerdekaan Indonesia (BPUPKI) dipimpin oleh seorang tokoh bangsawan berpengaruh, yaitu...",
+                options: ["Ir. Soekarno", "Dr. K.R.T. Radjiman Wedyodiningrat", "Drs. Mohammad Hatta", "Mr. Kasman Singodimedjo"],
+                ans: 1,
+                hint: "Beliau adalah seorang dokter senior yang memimpin sidang perumusan dasar negara.",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Ya, saya sendiri Dr. Radjiman Wedyodiningrat yang mendapat amanah menjadi Ketua BPUPKI."
+            },
+            {
+                no: 12, sila: 2, pos: 12, level: "L2",
+                materi: "Sila 2 Kemanusiaan",
+                indikator: "Menentukan perilaku tidak sesuai sila 2",
+                soal: "Siswa kelas VII menolak berteman dengan siswa baru hanya karena perbedaan latar belakang ekonomi. Perilaku siswa tersebut melanggar sila ke-...",
+                options: ["1", "2", "3", "4"],
+                ans: 1,
+                hint: "Sila 2 mengajarkan kita memperlakukan manusia sesuai harkat martabatnya tanpa membeda-bedakan.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Benar! Menjauhi teman karena latar belakang ekonomi melanggar prinsip kemanusiaan yang adil dan beradab."
+            },
+            // SILA 3 (POS 13-18)
+            {
+                no: 13, sila: 3, pos: 13, level: "L2",
+                materi: "Keanggotaan BPUPKI 67 anggota",
+                indikator: "Menhitung persentase anggota luar biasa (Numerasi)",
+                soal: "Jumlah anggota BPUPKI adalah 67 orang, terdiri atas 60 anggota aktif bangsa Indonesia dan 7 anggota luar biasa perwakilan Jepang. Berapakah persentase anggota perwakilan Jepang (7 dari 67)?",
+                options: ["5,5%", "10,4%", "15,2%", "20,0%"],
+                ans: 1,
+                hint: "Hitung (7 ÷ 67) × 100% ≈ 10,44%.",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Keren! (7 / 67) × 100% = 10,44% (dibulatkan menjadi 10,4%). Anggota Jepang hanya pengawas tanpa hak suara."
+            },
+            {
+                no: 14, sila: 3, pos: 14, level: "L1",
+                materi: "PPKI 7 Agustus 1945",
+                indikator: "Menyebutkan Ketua PPKI",
+                soal: "Setelah BPUPKI dibubarkan pada 7 Agustus 1945, dibentuklah Panitia Persiapan Kemerdekaan Indonesia (PPKI). Siapakah yang ditunjuk sebagai Ketua PPKI?",
+                options: ["Drs. Mohammad Hatta", "Ir. Soekarno", "Mr. Soepomo", "Sutan Sjahrir"],
+                ans: 1,
+                hint: "Tokoh yang membacakan Teks Proklamasi Kemerdekaan RI.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Benar, saya dipelih sebagai Ketua PPKI didampingi Bung Hatta sebagai Wakil Ketua."
+            },
+            {
+                no: 15, sila: 3, pos: 15, level: "L3",
+                materi: "Hoaks & SARA",
+                indikator: "Menentukan sikap kritis terhadap hoaks",
+                soal: "Di grup WhatsApp kelas terkirim berita hoaks bermuatan isu SARA yang dapat memecah belah persahabatan antar teman. Sikap Pancasilais yang paling tepat adalah...",
+                options: ["Meneruskan berita tersebut ke grup lain agar ramai", "Saring sebelum saring, mengklarifikasi kebenaran dan tidak ikut menyebarkannya", "Membenci pengirim berita tanpa menasihatinya", "Langsung keluar dari grup kelas"],
+                ans: 1,
+                hint: "Ingat prinsip 'Saring sebelum Sharing' menjaga persatuan nasional.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Tepat sekali! Kritis terhadap hoaks SARA menjaga Persatuan Indonesia dari ancaman perpecahan digital."
+            },
+            {
+                no: 16, sila: 3, pos: 16, level: "L2",
+                materi: "Toleransi Agama",
+                indikator: "Mengidentifikasi toleransi sebagai sila 1",
+                soal: "Saat temanmu yang beragama Kristen hendak beribadah di gereja pada hari Minggu, kamu menjaga ketenangan di sekitar area sekolah. Tindakan ini mencerminkan pengamalan Sila...",
+                options: ["Sila ke-1", "Sila ke-2", "Sila ke-3", "Sila ke-4"],
+                ans: 0,
+                hint: "Menghormati kebebasan beribadah agama lain adalah cerminan Sila ke-1.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Benar! Toleransi antarumat beragama adalah wujud nyata Sila Ketuhanan Yang Maha Esa."
+            },
+            {
+                no: 17, sila: 3, pos: 17, level: "L2",
+                materi: "Survei 200 responden",
+                indikator: "Menghitung jumlah pemilih sila 5 (Numerasi)",
+                soal: "Dari survei 200 siswa SMPN 4 Kalibening tentang penerapan nilai Pancasila, sebanyak 20% memilih Sila ke-5 sebagai sila paling perlu ditingkatkan. Berapakah jumlah siswa pemilih Sila ke-5 tersebut?",
+                options: ["20 siswa", "30 siswa", "40 siswa", "50 siswa"],
+                ans: 2,
+                hint: "Hitung 20% dari 200 = (20 / 100) × 200.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Hitunganmu akurat! 20% × 200 = 0,20 × 200 = 40 siswa."
+            },
+            {
+                no: 18, sila: 3, pos: 18, level: "L1",
+                materi: "Trisila dan Ekasila",
+                indikator: "Menyebutkan inti Ekasila",
+                soal: "Dalam pidato 1 Juni 1945, Ir. Soekarno menjelaskan bahwa jika Pancasila diperas menjadi Ekasila (satu sila), maka inti dari Ekasila tersebut adalah...",
+                options: ["Musyawarah", "Gotong Royong", "Keadilan", "Ketuhanan"],
+                ans: 1,
+                hint: "Ekasila berisi nilai dasar kerja sama asli Indonesia.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Merdeka! Ekasila adalah 'Gotong Royong' - jiwa asli bangsa Indonesia yang saling menopang."
+            },
+            // SILA 4 (POS 19-24)
+            {
+                no: 19, sila: 4, pos: 19, level: "L2",
+                materi: "Musyawarah Pemilihan Ketua Kelas",
+                indikator: "Mengidentifikasi nilai musyawarah",
+                soal: "Dalam pemilihan ketua kelas VII, keputusan tidak dicapai secara cepat. Akhirnya dilakukan pemungutan suara (voting) secara demokratis. Hal ini sesuai nilai Sila ke-...",
+                options: ["2", "3", "4", "5"],
+                ans: 2,
+                hint: "Demokrasi dan pengambilan keputusan bersama sesuai Sila ke-4.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Tepat! Mengutamakan musyawarah dan pemungutan suara jujur adalah nilai Sila 4."
+            },
+            {
+                no: 20, sila: 4, pos: 20, level: "L1",
+                materi: "Penetapan 18 Agustus 1945",
+                indikator: "Menunjukkan dokumen penetapan Pancasila",
+                soal: "Pancasila secara resmi dan sah ditetapkan sebagai dasar negara Indonesia pada tanggal 18 Agustus 1945 yang tercantum dalam...",
+                options: ["Naskah Proklamasi Kemerdekaan", "Pembukaan UUD Negara Republik Indonesia Tahun 1945", "Batang Tubuh UUD 1945", "Piagam Jakarta"],
+                ans: 1,
+                hint: "Pancasila yang sah berada pada alinea ke-4 Pembukaan UUD 1945.",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Benar! PPKI mengesahkan Pembukaan UUD 1945 yang memuat rumusan sah 5 Sila Pancasila pada 18 Agustus 1945."
+            },
+            {
+                no: 21, sila: 4, pos: 21, level: "L2",
+                materi: "Sikap Teladan Pendiri Bangsa",
+                indikator: "Menentukan sikap luhur pendiri bangsa",
+                soal: "Pendiri bangsa berbeda pendapat saat menyusun dasar negara, namun tetap saling menghormati dan tidak memaksakan kehendak. Sikap teladan ini dinamakan...",
+                options: ["Egoisme dan kedaerahan", "Toleransi dan jiwabesar (lapang dada)", "Otoriter dan kaku", "Apatis terhadap masa depan"],
+                ans: 1,
+                hint: "Pendiri bangsa mengedepankan toleransi dan kelapangan dada.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Luar biasa! Musyawarah hanya sukses jika diiringi rasa lapang dada dan menghargai pendapat."
+            },
+            {
+                no: 22, sila: 4, pos: 22, level: "L3",
+                materi: "Peduli Sesama & Keadilan",
+                indikator: "Mengidentifikasi pengamalan sila 2 & 5",
+                soal: "Menggalang dana untuk korban bencana alam di Banjarnegara menunjukkan rasa kemanusiaan (Sila 2) sekaligus upaya meringankan beban sesama demi keadilan sosial (Sila 5). Pernyataan tersebut...",
+                options: ["Benar, karena nilai-nilai Pancasila saling berkaitan dan tidak terpisahkan", "Salah, karena satu tindakan hanya boleh untuk satu sila saja", "Salah, karena bencana alam tidak ada kaitannya dengan Pancasila", "Benar, namun hanya berlaku di tingkat sekolah"],
+                ans: 0,
+                hint: "Pancasila adalah satu kesatuan yang organis dan saling mengkualifikasi.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Tepat sekali! Sila-sila Pancasila merupakan satu kesatuan utuh yang saling menjiwai."
+            },
+            {
+                no: 23, sila: 4, pos: 23, level: "L3",
+                materi: "Perbandingan 3 Tokoh",
+                indikator: "Menyimpulkan kesamaan usulan tokoh",
+                soal: "Meskipun M. Yamin, Soepomo, dan Soekarno menyampaikan usulan dasar negara dengan kalimat yang berbeda, ketiganya memiliki kesamaan mendasar yaitu...",
+                options: ["Semua ingin Indonesia menjadi negara kerajaan", "Semua berlandaskan pada semangat Ketuhanan, Kemanusiaan, dan Persatuan bangsa", "Semua meniru sistem pemerintahan barat secara penuh", "Semua mengusulkan dasar negara dalam bahasa Jepang"],
+                ans: 1,
+                hint: "Ketiga tokoh menggali dari akar budaya luhur bangsa Indonesia.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Benar! Gagasan kami semua berakar pada kearifan lokal, jiwa Ketuhanan, Kemanusiaan, dan Persatuan."
+            },
+            {
+                no: 24, sila: 4, pos: 24, level: "L2",
+                materi: "Dana Sosial 10jt",
+                indikator: "Menghitung sisa uang tunai disalurkan (Numerasi)",
+                soal: "Panitia OSIS mengumpulkan dana bantuan sosial sebesar Rp 10.000.000,-. Sebanyak Rp 7.000.000,- dibelikan sembako, dan sisanya dibagikan berupa uang tunai. Berapakah sisa uang tunai tersebut?",
+                options: ["Rp 2.000.000,-", "Rp 3.000.000,-", "Rp 4.000.000,-", "Rp 5.000.000,-"],
+                ans: 1,
+                hint: "Kurangi total dana dengan pembelian sembako: 10 Juta - 7 Juta.",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Tepat! Rp 10.000.000 - Rp 7.000.000 = Rp 3.000.000,- sisa dana tunai."
+            },
+            // SILA 5 (POS 25-30)
+            {
+                no: 25, sila: 5, pos: 25, level: "L2",
+                materi: "Tradisi Gotong Royong",
+                indikator: "Menjelaskan makna gotong royong",
+                soal: "Gotong royong merupakan ciri khas kehidupan masyarakat Indonesia. Makna utama dari gotong royong adalah...",
+                options: ["Bekerja bersama-sama untuk mencapai hasil yang diinginkan demi kepentingan bersama tanpa upah", "Memaksa orang lain mengerjakan tugas kita", "Mencari keuntungan pribadi dalam kelompok", "Kegiatan yang hanya dilakukan saat diwajibkan guru"],
+                ans: 0,
+                hint: "Gotong royong didasari kesukarelaan demi kebaikan bersama.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Bagus! Gotong royong adalah membanting tulang bersama, pemerasan keringat bersama untuk kepentingan bersama!"
+            },
+            {
+                no: 26, sila: 5, pos: 26, level: "L3",
+                materi: "Budaya Asing & Globalisasi",
+                indikator: "Menentukan solusi filter budaya asing",
+                soal: "Di era digital, berbagai budaya asing masuk dengan cepat. Solusi terbaik siswa SMP dalam menyikapi budaya asing sesuai Pancasila adalah...",
+                options: ["Menolak seluruh budaya asing tanpa terkecuali", "Menerima semua budaya asing agar dianggap modern", "Menyaring (memfilter) budaya asing sesuai dengan nilai-nilai Pancasila", "Menghapus akun media sosial secara total"],
+                ans: 2,
+                hint: "Gunakan Pancasila sebagai penyaring (filter) budaya.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Tepat! Pancasila adalah filter agar kita menyerap hal positif globalisasi tanpa kehilangan kepribadian bangsa."
+            },
+            {
+                no: 27, sila: 5, pos: 27, level: "L2",
+                materi: "Musyawarah RT (Lanjutan)",
+                indikator: "Mengidentifikasi musyawarah",
+                soal: "Dalam musyawarah RT, keputusan yang sudah disepakati bersama wajib dijalankan oleh...",
+                options: ["Ketua RT saja", "Hanya warga yang setuju", "Seluruh warga dengan penuh rasa tanggung jawab", "Warga yang menghadiri rapat saja"],
+                ans: 2,
+                hint: "Hasil musyawarah mengikat seluruh anggota masyarakat.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Benar! Setiap warga wajib menghormati dan melaksanakan hasil keputusan musyawarah secara ikhlas."
+            },
+            {
+                no: 28, sila: 5, pos: 28, level: "L3",
+                materi: "Hak dan Kewajiban Seimbang",
+                indikator: "Menentukan contoh keseimbangan hak dan kewajiban",
+                soal: "Siswa SMPN 4 Kalibening berhak mendapatkan ilmu dan pelayanan pendidikan. Kewajiban seimbang yang harus dilakukan siswa adalah...",
+                options: ["Menuntut fasilitas sekolah serba mewah", "Belajar dengan tekun, mematuhi tata tertib, dan menjaga kebersihan sekolah", "Datang terlambat tanpa alasan", "Membayar denda setiap hari"],
+                ans: 1,
+                hint: "Sila 5 menuntut keseimbangan antara hak yang diterima dan kewajiban yang dijalankan.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Mantap! Keseimbangan antara hak dan kewajiban adalah inti dari Keadilan Sosial Sila 5."
+            },
+            {
+                no: 29, sila: 5, pos: 29, level: "L3",
+                materi: "Konflik Pilkades",
+                indikator: "Menentukan upaya persatuan di atas perbedaan",
+                soal: "Pasca Pemilihan Kepala Desa (Pilkades), terjadi perbedaan pilihan antar warga. Upaya paling tepat untuk menjaga persatuan adalah...",
+                options: ["Mengadakan demonstrasi menolak pemenang", "Saling menghujat di media sosial", "Menghormati hasil resmi dan kembali bersatu membangun desa bersama", "Pindah tempat tinggal ke desa lain"],
+                ans: 2,
+                hint: "Persatuan bangsa harus diutamakan di atas perbedaan politik lokal.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Benar! Pesta demokrasi selesai, saatnya kembali bergandengan tangan membangun desa bersama."
+            },
+            {
+                no: 30, sila: 5, pos: 30, level: "L2",
+                materi: "Musyawarah 50 warga",
+                indikator: "Menghitung rasio penghijauan vs renovasi (Numerasi)",
+                soal: "Dalam musyawarah desa yang dihadiri 50 warga, 30 orang setuju program penghijauan dan 20 orang setuju renovasi balai desa. Berapakah rasio perbandingan warga penghijauan : renovasi dalam bentuk paling sederhana?",
+                options: ["3 : 2", "2 : 3", "3 : 5", "5 : 3"],
+                ans: 0,
+                hint: "Bagi kedua angka (30 dan 20) dengan FPB-nya (10).",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Sangat presisi! 30 : 20 sederhanakan dibagi 10 menjadi 3 : 2."
+            },
+
+            // SOAL KUIS CEPAT TAMBAHAN (NO 31-35)
+            {
+                no: 31, sila: 1, pos: 31, level: "L1",
+                materi: "Agenda Sidang I BPUPKI",
+                indikator: "Menentukan agenda utama Sidang I BPUPKI",
+                soal: "Agenda utama yang dibahas pada Sidang Pertama BPUPKI tanggal 29 Mei - 1 Juni 1945 adalah...",
+                options: ["Membahas dan merumuskan dasar negara Indonesia merdeka", "Memilih Presiden dan Wakil Presiden", "Menyusun teks proklamasi", "Membentuk Tentara Nasional Indonesia"],
+                ans: 0,
+                hint: "Ketua BPUPKI bertanya dalam pembukaan sidang: 'Apa dasar negara yang akan kita bentang?'",
+                npc: "Dr. K.R.T. Radjiman Wedyodiningrat", avatar: "👴🏻",
+                penjelasan: "Benar, agenda utama Sidang I BPUPKI adalah merumuskan Dasar Negara."
+            },
+            {
+                no: 32, sila: 2, pos: 32, level: "L3",
+                materi: "Peduli Sesama",
+                indikator: "Mengidentifikasi pengamalan sila 2",
+                soal: "Menjenguk teman kelas yang sedang sakit di rumah sakit dan mengumpulkan donasi merupakan wujud...",
+                options: ["Tanggung jawab individu", "Sikap kemanusiaan dan kepedulian sosial Sila ke-2", "Ketakutan akan sanksi sekolah", "Pencitraan di media sosial"],
+                ans: 1,
+                hint: "Sila 2 mengajarkan kasih sayang sesama manusia.",
+                npc: "Mr. Muhammad Yamin", avatar: "👨🏻‍💼",
+                penjelasan: "Tepat! Empati pada sesama yang menderita adalah jiwa Kemanusiaan yang Adil dan Beradab."
+            },
+            {
+                no: 33, sila: 4, pos: 33, level: "L3",
+                materi: "Kunci Sukses Perumusan",
+                indikator: "Mengidentifikasi nilai musyawarah pendiri bangsa",
+                soal: "Kunci utama keberhasilan para pendiri bangsa dalam merumuskan dasar negara di tengah keberagaman adalah...",
+                options: ["Mengedepankan persatuan, semangat musyawarah, dan menekan ego kedaerahan", "Pemaksaan kehendak oleh kelompok mayoritas", "Mengikuti arahan penuh dari tentara Jepang", "Membiarkan konflik tanpa penyelesaian"],
+                ans: 0,
+                hint: "Kebersamaan dan mengutamakan kepentingan nasional di atas golongan.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Merdeka! Musyawarah untuk mufakat serta cinta tanah air melampaui ego pribadi adalah kuncinya."
+            },
+            {
+                no: 34, sila: 5, pos: 34, level: "L3",
+                materi: "Perilaku Hemat",
+                indikator: "Mengaitkan hemat dengan sila 5",
+                soal: "Siswa yang menyisihkan sebagian uang saku untuk ditabung dan tidak berfoya-foya mencerminkan pengamalan Sila 5 yaitu...",
+                options: ["Menghargai hasil karya orang lain", "Suka bekerja keras dan tidak bergaya hidup mewah", "Menjunjung tinggi hak asasi", "Menjaga persatuan lingkungan"],
+                ans: 1,
+                hint: "Butir Sila 5 melarang gaya hidup mewah dan pemborosan.",
+                npc: "Prof. Mr. Soepomo", avatar: "👨🏻‍⚖️",
+                penjelasan: "Benar! Tidak bergaya hidup mewah dan suka menabung adalah butir Sila ke-5."
+            },
+            {
+                no: 35, sila: 1, pos: 35, level: "L2",
+                materi: "Pancasila sebagai Weltanschauung",
+                indikator: "Menjelaskan makna pandangan hidup",
+                soal: "Pancasila berfungsi sebagai Weltanschauung (pandangan hidup bangsa). Artinya Pancasila dijadikan sebagai...",
+                options: ["Petunjuk arah dan pedoman dalam berperilaku kehidupan sehari-hari bagi seluruh warga", "Hiasan di dinding kelas sekolah semata", "Hukum sementara sampai dibuat UU baru", "Dokumen rahasia milik negara"],
+                ans: 0,
+                hint: "Pandangan hidup menjadi kompas/petunjuk arah bertindak.",
+                npc: "Ir. Soekarno", avatar: "👨‍💼",
+                penjelasan: "Sangat tepat! Weltanschauung adalah penuntun kompas morality dalam hidup bermasyarakat."
+            }
+        ];
+
+        // Sila Meta Info
+        const silaMeta = [
+            { id: 1, title: "Sila 1: Ketuhanan Yang Maha Esa", color: "from-amber-500 to-yellow-600", bg: "bg-amber-500", border: "border-amber-400", icon: "⭐" },
+            { id: 2, title: "Sila 2: Kemanusiaan Yang Adil & Beradab", color: "from-red-500 to-rose-600", bg: "bg-red-500", border: "border-red-400", icon: "🔗" },
+            { id: 3, title: "Sila 3: Persatuan Indonesia", color: "from-emerald-600 to-green-700", bg: "bg-emerald-600", border: "border-emerald-500", icon: "🌳" },
+            { id: 4, title: "Sila 4: Kerakyatan Dalam Permusyawaratan", color: "from-blue-600 to-indigo-700", bg: "bg-blue-600", border: "border-blue-500", icon: "🐂" },
+            { id: 5, title: "Sila 5: Keadilan Sosial Bagi Seluruh Rakyat", color: "from-orange-500 to-amber-600", bg: "bg-orange-500", border: "border-orange-400", icon: "🌾" }
+        ];
+
+        // Numeracy Specific Questions
+        const numeracyData = [
+            {
+                title: "1. Persentase Anggota Jepang di BPUPKI",
+                soal: "BPUPKI memiliki total 67 anggota (60 Indonesia + 7 Perwakilan Jepang). Berapakah persentase perwakilan Jepang?",
+                calcGuide: "Rumus: (7 / 67) × 100% = 10,44%",
+                opt: ["8,5%", "10,4%", "12,1%", "15,0%"],
+                ans: 1,
+                numA: 7, numB: 67, type: "percent"
+            },
+            {
+                title: "2. Total Durasi Sidang Resmi BPUPKI",
+                soal: "Sidang I berlangsung 4 hari (29 Mei - 1 Juni 1945). Sidang II berlangsung 8 hari (10 - 17 Juli 1945). Total hari sidang adalah...",
+                calcGuide: "Rumus: 4 hari + 8 hari = 12 hari",
+                opt: ["10 Hari", "12 Hari", "14 Hari", "16 Hari"],
+                ans: 1,
+                numA: 4, numB: 8, type: "add"
+            },
+            {
+                title: "3. Sisa Uang Bantuan Sosial OSIS",
+                soal: "Dana terkumpul Rp 10.000.000,-. Sebanyak Rp 7.000.000,- dipakai belanja sembako. Sisanya disalurkan tunai. Berapa sisa dana tunai?",
+                calcGuide: "Rumus: 10.000.000 - 7.000.000 = 3.000.000",
+                opt: ["Rp 2.000.000", "Rp 3.000.000", "Rp 4.000.000", "Rp 5.000.000"],
+                ans: 1,
+                numA: 10000000, numB: 7000000, type: "sub"
+            },
+            {
+                title: "4. Rasio Hasil Musyawarah Warga",
+                soal: "Dari 50 warga, 30 orang setuju Penghijauan dan 20 orang setuju Renovasi Balai Desa. Tentukan rasio paling sederhana (Penghijauan : Renovasi)!",
+                calcGuide: "Rumus: 30 : 20 → Sederhanakan dibagi 10 → 3 : 2",
+                opt: ["3 : 2", "2 : 3", "3 : 5", "5 : 3"],
+                ans: 0,
+                numA: 30, numB: 20, type: "ratio"
+            }
+        ];
+
+        // APP STATE
+        let userProgress = JSON.parse(localStorage.getItem('garuda_progress') || '{"stars":0, "xp":0, "completedPos":[]}');
+        let currentQuizIndex = 0;
+        let quizAnswers = new Array(35).fill(null);
+        let quizTimerInterval = null;
+        let quizTimeLeft = 15 * 60; // 15 min
+        let chartInstance = null;
+        let audioCtx = null;
+
+        // INIT ON LOAD
+        window.onload = function() {
+            updateStatsUI();
+            renderIslands();
+            renderNumeracyCards();
+        };
+
+        // SOUND EFFECTS (Web Audio API)
+        function playSound(type) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                } else {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                    osc.frequency.exponentialRampToValueAtTime(130.81, audioCtx.currentTime + 0.2); // C4
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                }
+            } catch(e) {}
+        }
+
+        // TABS SWITCHER
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(el => {
+                el.classList.remove('bg-red-600', 'text-white');
+                el.classList.add('bg-white', 'text-slate-700');
+            });
+
+            document.getElementById(`sec-${tab}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.classList.remove('bg-white', 'text-slate-700');
+            activeBtn.classList.add('bg-red-600', 'text-white');
+        }
+
+        // STATS UI
+        function updateStatsUI() {
+            document.getElementById('star-count').innerText = userProgress.stars;
+            document.getElementById('xp-count').innerText = `${userProgress.xp} XP`;
+            localStorage.setItem('garuda_progress', JSON.stringify(userProgress));
+        }
+
+        // ==========================================
+        // MODE 1: PETUALANGAN LOGIC
+        // ==========================================
+        function renderIslands() {
+            const grid = document.getElementById('island-grid');
+            grid.innerHTML = '';
+
+            silaMeta.forEach(sila => {
+                const silaQuestions = rawSoalData.filter(q => q.sila === sila.id && q.pos <= 30);
+                const doneCount = silaQuestions.filter(q => userProgress.completedPos.includes(q.pos)).length;
+
+                const card = document.createElement('div');
+                card.className = `island-card bg-white rounded-3xl p-5 border-2 ${sila.border} shadow-md cursor-pointer flex flex-col justify-between`;
+                card.onclick = () => showPostsForSila(sila.id);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-3xl">${sila.icon}</span>
+                            <span class="text-xs font-bold px-2.5 py-1 bg-slate-100 rounded-full text-slate-600">${doneCount}/6 Pos Selesai</span>
+                        </div>
+                        <h3 class="font-game font-bold text-slate-800 text-base mb-1">${sila.title}</h3>
+                        <p class="text-xs text-slate-500 mb-4">6 Pos Kisi-Kisi Terkait</p>
+                    </div>
+                    <div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-3">
+                            <div class="bg-gradient-to-r ${sila.color} h-full" style="width: ${(doneCount/6)*100}%"></div>
+                        </div>
+                        <button class="w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-200 flex items-center justify-center gap-1">
+                            Buka Pulau <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showPostsForSila(silaId) {
+            const container = document.getElementById('post-container');
+            const grid = document.getElementById('post-grid');
+            const meta = silaMeta.find(s => s.id === silaId);
+
+            document.getElementById('selected-island-title').innerText = meta.title;
+            grid.innerHTML = '';
+
+            const posts = rawSoalData.filter(q => q.sila === silaId && q.pos <= 30);
+
+            posts.forEach(q => {
+                const isDone = userProgress.completedPos.includes(q.pos);
+                const btn = document.createElement('div');
+                btn.className = `p-4 rounded-2xl border ${isDone ? 'bg-emerald-50 border-emerald-300' : 'bg-white border-slate-200'} shadow-sm hover:shadow-md cursor-pointer transition text-center relative group`;
+                btn.onclick = () => openQuestionModal(q);
+
+                btn.innerHTML = `
+                    <div class="text-xs font-bold text-slate-400 mb-1">POS ${q.pos}</div>
+                    <div class="font-game text-xl font-bold ${isDone ? 'text-emerald-600' : 'text-slate-800'} mb-1">
+                        ${isDone ? '<i class="fa-solid fa-circle-check text-emerald-500 me-1"></i>' : ''} No. ${q.no}
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${q.level === 'L3' ? 'bg-purple-100 text-purple-700' : q.level === 'L2' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'}">
+                        ${q.level}
+                    </span>
+                `;
+                grid.appendChild(btn);
+            });
+
+            container.classList.remove('hidden');
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hidePosts() {
+            document.getElementById('post-container').classList.add('hidden');
+        }
+
+        // MODAL QUESTION (ADVENTURE)
+        let activeModalQuestion = null;
+
+        function openQuestionModal(q) {
+            activeModalQuestion = q;
+            document.getElementById('modal-badge-pos').innerText = `Pos ${q.pos}`;
+            document.getElementById('modal-badge-level').innerText = `Level ${q.level}`;
+            document.getElementById('modal-badge-no').innerText = `Soal No ${q.no}`;
+            document.getElementById('modal-indicator-title').innerText = `Indikator: ${q.indikator}`;
+            document.getElementById('modal-question-text').innerText = q.soal;
+
+            // Reset UI
+            document.getElementById('modal-hint-box').classList.add('hidden');
+            document.getElementById('modal-npc-box').classList.add('hidden');
+            document.getElementById('modal-actions').classList.add('hidden');
+
+            const optContainer = document.getElementById('modal-options-container');
+            optContainer.innerHTML = '';
+
+            q.options.forEach((optText, idx) => {
+                const optBtn = document.createElement('button');
+                optBtn.className = "w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-red-400 hover:bg-red-50 text-slate-700 font-semibold text-sm transition flex items-start gap-3 option-btn";
+                optBtn.onclick = () => answerModalQuestion(idx, optBtn);
+
+                const label = ['A', 'B', 'C', 'D'][idx];
+                optBtn.innerHTML = `
+                    <span class="w-7 h-7 bg-slate-100 text-slate-600 rounded-xl flex items-center justify-center font-bold text-xs flex-shrink-0">${label}</span>
+                    <span class="pt-0.5">${optText}</span>
+                `;
+                optContainer.appendChild(optBtn);
+            });
+
+            document.getElementById('modal-question').classList.remove('hidden');
+        }
+
+        function closeQuestionModal() {
+            document.getElementById('modal-question').classList.add('hidden');
+            renderIslands();
+        }
+
+        function answerModalQuestion(selectedIdx, btnElement) {
+            const q = activeModalQuestion;
+            const isCorrect = (selectedIdx === q.ans);
+
+            // Disable all option buttons
+            document.querySelectorAll('.option-btn').forEach(b => b.onclick = null);
+
+            if (isCorrect) {
+                playSound('correct');
+                btnElement.classList.remove('border-slate-200', 'hover:border-red-400');
+                btnElement.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+
+                // Trigger Confetti
+                confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+
+                // Add XP & Progress
+                if (!userProgress.completedPos.includes(q.pos)) {
+                    userProgress.completedPos.push(q.pos);
+                    userProgress.stars += 1;
+                    userProgress.xp += 50;
+                    updateStatsUI();
+                }
+
+                // Show NPC
+                document.getElementById('npc-avatar').innerText = q.avatar;
+                document.getElementById('npc-name').innerText = q.npc;
+                document.getElementById('npc-explanation').innerText = q.penjelasan;
+                document.getElementById('modal-npc-box').classList.remove('hidden');
+
+            } else {
+                playSound('wrong');
+                btnElement.classList.remove('border-slate-200');
+                btnElement.classList.add('bg-rose-100', 'border-rose-400', 'text-rose-900');
+
+                // Show Hint
+                document.getElementById('modal-hint-text').innerText = q.hint;
+                document.getElementById('modal-hint-box').classList.remove('hidden');
+            }
+
+            document.getElementById('modal-actions').classList.remove('hidden');
+        }
+
+        // ==========================================
+        // MODE 2: KUIS CEPAT 35 SOAL
+        // ==========================================
+        function startFullQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+
+            currentQuizIndex = 0;
+            quizAnswers = new Array(35).fill(null);
+            quizTimeLeft = 15 * 60;
+
+            renderQuizNav();
+            loadQuizQuestion(0);
+            startQuizTimer();
+        }
+
+        function startQuizTimer() {
+            clearInterval(quizTimerInterval);
+            quizTimerInterval = setInterval(() => {
+                quizTimeLeft--;
+                const m = Math.floor(quizTimeLeft / 60);
+                const s = quizTimeLeft % 60;
+                document.getElementById('quiz-timer-text').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+                if (quizTimeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function renderQuizNav() {
+            const nav = document.getElementById('quiz-nav-grid');
+            nav.innerHTML = '';
+            for (let i = 0; i < 35; i++) {
+                const btn = document.createElement('button');
+                btn.id = `qnav-${i}`;
+                btn.onclick = () => loadQuizQuestion(i);
+                btn.className = `w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center transition border ${i === currentQuizIndex ? 'border-red-600 bg-red-600 text-white shadow' : quizAnswers[i] !== null ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-slate-100 border-slate-200 text-slate-600'}`;
+                btn.innerText = i + 1;
+                nav.appendChild(btn);
+            }
+        }
+
+        function loadQuizQuestion(idx) {
+            currentQuizIndex = idx;
+            const q = rawSoalData[idx];
+
+            document.getElementById('quiz-current-num').innerText = idx + 1;
+            document.getElementById('quiz-badge-level').innerText = `Level ${q.level}`;
+            document.getElementById('quiz-indicator-label').innerText = `Indikator: ${q.indikator}`;
+            document.getElementById('quiz-question-text').innerText = q.soal;
+
+            // Nav buttons state
+            document.getElementById('btn-prev-quiz').disabled = (idx === 0);
+            document.getElementById('btn-prev-quiz').style.opacity = (idx === 0) ? "0.5" : "1";
+
+            // Update Nav grid highlights
+            renderQuizNav();
+
+            const optContainer = document.getElementById('quiz-options-container');
+            optContainer.innerHTML = '';
+
+            q.options.forEach((optText, oIdx) => {
+                const optBtn = document.createElement('button');
+                const isSelected = (quizAnswers[idx] === oIdx);
+
+                optBtn.className = `w-full text-left p-4 rounded-2xl border transition flex items-start gap-3 ${isSelected ? 'border-red-600 bg-red-50 font-bold text-red-900 shadow-sm' : 'border-slate-200 hover:border-slate-300 text-slate-700 font-semibold'}`;
+                optBtn.onclick = () => selectQuizAnswer(oIdx);
+
+                const label = ['A', 'B', 'C', 'D'][oIdx];
+                optBtn.innerHTML = `
+                    <span class="w-7 h-7 rounded-xl flex items-center justify-center font-bold text-xs flex-shrink-0 ${isSelected ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-600'}">${label}</span>
+                    <span class="pt-0.5 text-sm">${optText}</span>
+                `;
+                optContainer.appendChild(optBtn);
+            });
+        }
+
+        function selectQuizAnswer(optIdx) {
+            quizAnswers[currentQuizIndex] = optIdx;
+            loadQuizQuestion(currentQuizIndex);
+        }
+
+        function navigateQuiz(dir) {
+            const nextIdx = currentQuizIndex + dir;
+            if (nextIdx >= 0 && nextIdx < 35) {
+                loadQuizQuestion(nextIdx);
+            }
+        }
+
+        function finishQuizConfirmation() {
+            const unanswered = quizAnswers.filter(a => a === null).length;
+            if (unanswered > 0) {
+                if (!confirm(`Masih ada ${unanswered} soal yang belum dijawab. Yakin ingin menyelesaikan?`)) return;
+            }
+            finishQuiz();
+        }
+
+        function finishQuiz() {
+            clearInterval(quizTimerInterval);
+
+            let correct = 0;
+            let silaScore = [0, 0, 0, 0, 0]; // count per sila
+            let silaTotal = [0, 0, 0, 0, 0];
+
+            rawSoalData.forEach((q, idx) => {
+                const sIdx = q.sila - 1;
+                silaTotal[sIdx]++;
+                if (quizAnswers[idx] === q.ans) {
+                    correct++;
+                    silaScore[sIdx]++;
+                }
+            });
+
+            const finalScore = Math.round((correct / 35) * 100);
+
+            // Hide active quiz, show results
+            document.getElementById('quiz-active').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+
+            document.getElementById('result-score').innerText = finalScore;
+            document.getElementById('result-correct-count').innerText = `${correct}/35 Soal`;
+
+            const timeUsedSec = (15 * 60) - quizTimeLeft;
+            const mins = Math.floor(timeUsedSec / 60);
+            const secs = timeUsedSec % 60;
+            document.getElementById('result-time-used').innerText = `Waktu Pengerjaan: ${mins}m ${secs}s`;
+
+            // KKTP Evaluation
+            const kktpEl = document.getElementById('result-kktp');
+            const kktpDesc = document.getElementById('result-kktp-desc');
+            const iconEl = document.getElementById('result-badge-icon');
+
+            if (finalScore >= 90) {
+                kktpEl.innerText = "ISTIMEWA (Duta Pancasila)";
+                kktpEl.className = "font-bold text-lg text-emerald-600 block";
+                kktpDesc.innerText = "Selamat! Penguasaan materi sangat luar biasa.";
+                iconEl.innerText = "👑";
+                iconEl.className = "w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center text-5xl mx-auto mb-4 shadow-inner";
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
+            } else if (finalScore >= 75) {
+                kktpEl.innerText = "TUNTAS";
+                kktpEl.className = "font-bold text-lg text-blue-600 block";
+                kktpDesc.innerText = "Bagus! Kamu telah memenuhi kriteria ketuntasan minimum.";
+                iconEl.innerText = "🎖️";
+                iconEl.className = "w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center text-5xl mx-auto mb-4 shadow-inner";
+            } else {
+                kktpEl.innerText = "BELUM TUNTAS (Remedial)";
+                kktpEl.className = "font-bold text-lg text-rose-600 block";
+                kktpDesc.innerText = "Perlu belajar lagi! Pelajari mode petualangan.";
+                iconEl.innerText = "📖";
+                iconEl.className = "w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center text-5xl mx-auto mb-4 shadow-inner";
+            }
+
+            // Add XP
+            userProgress.xp += finalScore * 2;
+            updateStatsUI();
+
+            // Render Radar Chart
+            renderSilaChart(silaScore, silaTotal);
+        }
+
+        function renderSilaChart(silaScore, silaTotal) {
+            const ctx = document.getElementById('silaRadarChart').getContext('2d');
+            const percents = silaScore.map((score, i) => Math.round((score / silaTotal[i]) * 100));
+
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Sila 1', 'Sila 2', 'Sila 3', 'Sila 4', 'Sila 5'],
+                    datasets: [{
+                        label: 'Penguasaan %',
+                        data: percents,
+                        backgroundColor: 'rgba(225, 29, 72, 0.2)',
+                        borderColor: 'rgba(225, 29, 72, 1)',
+                        pointBackgroundColor: 'rgba(225, 29, 72, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#cbd5e1' },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { stepSize: 25, display: false }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // ==========================================
+        // MODE 3: NUMERASI LOGIC
+        // ==========================================
+        function renderNumeracyCards() {
+            const container = document.getElementById('numeracy-cards');
+            container.innerHTML = '';
+
+            numeracyData.forEach((num, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl p-6 border border-slate-200 shadow-md flex flex-col justify-between";
+
+                let optHtml = '';
+                num.opt.forEach((oText, oIdx) => {
+                    optHtml += `
+                        <button onclick="checkNumeracyAns(${idx}, ${oIdx}, this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-400 text-xs font-semibold text-slate-700 mb-2 transition num-opt-${idx}">
+                            ${oText}
+                        </button>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Soal Numerasi ${idx+1}</span>
+                        <h3 class="font-bold text-slate-800 text-base mb-2">${num.title}</h3>
+                        <p class="text-xs text-slate-600 mb-4 leading-relaxed">${num.soal}</p>
+
+                        <!-- Visual Calc Tool -->
+                        <div class="bg-indigo-950 text-indigo-100 p-4 rounded-2xl mb-4 text-xs font-mono">
+                            <div class="text-[10px] text-indigo-400 uppercase font-bold mb-1"><i class="fa-solid fa-calculator me-1"></i> Bantuan Visual Kalkulator</div>
+                            <div>${num.calcGuide}</div>
+                        </div>
+
+                        <div class="space-y-1">
+                            ${optHtml}
+                        </div>
+                    </div>
+                    <div id="num-feedback-${idx}" class="mt-3 text-xs font-bold hidden"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function checkNumeracyAns(qIdx, selectedOptIdx, btnEl) {
+            const numData = numeracyData[qIdx];
+            const isCorrect = (selectedOptIdx === numData.ans);
+            const feedbackEl = document.getElementById(`num-feedback-${qIdx}`);
+
+            document.querySelectorAll(`.num-opt-${qIdx}`).forEach(b => b.onclick = null);
+
+            if (isCorrect) {
+                playSound('correct');
+                btnEl.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+                feedbackEl.innerText = "✨ Jawaban Tepat! Konsep numerasi berhasil dipahami.";
+                feedbackEl.className = "mt-3 text-xs font-bold text-emerald-600 block";
+                confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
+            } else {
+                playSound('wrong');
+                btnEl.classList.add('bg-rose-100', 'border-rose-400', 'text-rose-900');
+                feedbackEl.innerText = `❌ Kurang tepat. Jawaban yang benar: ${numData.opt[numData.ans]}`;
+                feedbackEl.className = "mt-3 text-xs font-bold text-rose-600 block";
+            }
+        }
+    </script>
+</body>
+</html>
+```
